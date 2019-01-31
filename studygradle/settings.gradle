@@ -1,0 +1,6 @@
+//settings.gradle作用：配置根项目，子项目名称
+rootProject.name = 'studygradle'
+include 'base'
+include 'data'
+include 'web'
+

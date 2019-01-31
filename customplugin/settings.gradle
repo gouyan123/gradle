@@ -1,0 +1,3 @@
+//配置 根项目，子项目名称，只有 根项目中需要
+rootProject.name = 'customplugin'
+

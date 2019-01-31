@@ -1,0 +1,91 @@
+//调用函数 buildscript(Closure closure)，{...}不是buildscript()的方法体，而是闭包closure的具体实现，方法会直接运行
+buildscript {			//配置gradle自身所需的插件，只用于gradle自身
+	ext {				//ext用于 属性扩展
+		springBootVersion = '2.1.1.RELEASE'
+	}
+	repositories {		//配置 插件仓库
+		maven {url "http://maven.aliyun.com/nexus/content/groups/public"}
+		mavenCentral()
+	}
+	dependencies {		//配置 插件依赖
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")	//依赖一个插件
+	}
+}
+//相当于调用函数 plugins(Closure closure)，{...}不是plugins()的方法体，而是闭包closure的具体实现，方法会直接运行
+//定义插件
+plugins {
+	id 'java'
+	id 'idea'
+}
+//使用插件
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+//在最外部定义 坐标
+group = 'com.gupao.edu.vip'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8	//源码兼容
+targetCompatibility = 1.8	//编译兼容
+
+//相当于调用函数 repositories(Closure closure)，{...}不是repositories()的方法体，而是闭包closure的具体实现，方法会直接运行
+repositories {
+	mavenCentral()
+}
+//相当于调用函数 allprojects(Closure closure)，{...}不是allprojects()的方法体，而是闭包closure的具体实现，方法会直接运行
+//allprojects 配置所有项目的通用配置
+allprojects {
+	apply plugin: 'java'		//使用 java插件
+	version = '1.0'				//定义 插件版本
+}
+//相当于调用函数 subprojects(Closure closure)，{...}不是subprojects()的方法体，而是闭包closure的具体实现，方法会直接运行
+subprojects{
+
+}
+
+//rootProject{
+//
+//}
+//相当于调用函数 dependencies(Closure closure)，{...}不是dependenceis()的方法体，而是闭包closure的具体实现，方法会直接运行
+dependencies {
+	implementation('org.springframework.boot:spring-boot-starter-web')
+	testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
+/**监听生命周期，执行 gradle clean，观察打印结果
+ * 配置阶段开始前的监听
+ */
+this.beforeEvaluate {
+	println '配置开始前'
+}
+
+/**监听生命周期，执行 gradle clean，观察打印结果
+ * 配置阶段开始后的监听
+ */
+this.afterEvaluate {
+	println '配置完成后'
+}
+
+/**监听生命周期，执行 gradle clean，观察打印结果
+ * 执行完成的监听
+ */
+this.gradle.buildFinished {
+	println '执行阶段完毕'
+}
+//相当于调用函数 project(String str,Closure closure)，{...}不是project()的方法体，而是闭包closure的具体实现，方法会直接运行
+//单项目配置，base为studygradle的子项目名称
+project ('base') {
+//	dependencies {
+//		compile project (':springboot-data')
+//		compile project (':springboot-web')
+//		compile project (':springboot-shiro')
+//		compile project (':springboot-base')
+//	}
+  version = '3.0'								//修改base项目 版本号
+}
+
+//单项目配置，base为studygradle的子项目名称
+project('base'){
+	println 'base version:'+version				//打印base项目 版本号
+}
+

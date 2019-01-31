@@ -1,0 +1,55 @@
+group 'com.gupao.edu.vip'
+version '1.0-SNAPSHOT'
+//使用 java插件
+apply plugin: 'java'
+//源码兼容版本
+sourceCompatibility = 1.8
+//相当于调用函数 repositories(Closure closure)，{...}不是repositories()的方法体，而是闭包closure的具体实现，方法会直接运行
+repositories {
+    mavenCentral()
+}
+//相当于调用函数 dependencies(Closure closure)，{...}不是dependencies()的方法体，而是闭包closure的具体实现，方法会直接运行
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+//task sourceSets {
+//    main {
+//        java {
+//            srcDir 'src/javademo' // 指定源码目录
+//        }
+//        resources {
+//            srcDir 'src/res' // 指定资源目录
+//        }
+//    }
+//
+//}
+
+// 自定义 创建项目结构目录 方法createDir ，createDir为方法名，就是一个变量，{}为一个闭包匿名函数，将方法名付给createDir；
+// 注意：此处只是定义 函数名，还没调用函数；函数名 + () = 调用函数；
+def createDir = {
+    path ->
+      File dir = new File(path)
+      if(!dir.exists()){
+          dir.mkdirs()
+      }
+}
+//定义一个 task任务，创建 java项目目录结构，点击右侧gradle中task的run，直接运行插件；
+//gradle中都是task；查询所有task：gradle task --all；执行某个 task：gradle xxx；
+task createJavaDir() {
+    def paths = ['src/main/java','src/main/resources','src/test/java','src/test/resources']
+    //在 task任务执行之前运行 doFirst
+    doFirst{
+        paths.forEach(createDir)
+    }
+}
+//定义一个 task任务，创建 java web项目目录结构；
+//gradle中都是task；查询所有task：gradle task --all；执行某个 task：gradle xxx；
+task createWebDir(){
+    def paths = ['src/main/webapp','src/test/webapp']
+    dependsOn 'createJavaDir'       //依赖
+    doLast{                         //依赖执行之后
+         paths.forEach(createDir)
+    }
+}
+
+

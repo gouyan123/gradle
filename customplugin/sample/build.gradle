@@ -1,0 +1,15 @@
+//buildscript配置gradle本身所需插件
+buildscript {
+    /*从哪个仓库去取 插件*/
+    repositories {
+        maven {
+            url uri('../gupao')
+        }
+    }
+    /*去仓库取的 插件 是什么*/
+    dependencies {
+        classpath group: 'com.gupao.edu.vip',
+                  name:'customplugin',
+                  version:'1.00.'
+    }
+}
